@@ -1,5 +1,12 @@
 import React from "react";
-import { View, SafeAreaView, ScrollView, Text, Image } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  ScrollView,
+  Text,
+  Image,
+  StyleSheet,
+} from "react-native";
 import { DetailCard } from "../components/detail-card";
 import Constants from "expo-constants";
 import { Header } from "../components/header";
@@ -8,129 +15,53 @@ import { data } from "../public/data";
 
 export const Passengers = ({ navigation }) => {
   const statusBarHeight = Constants.statusBarHeight;
-  const pillSize = { width: 16 * 2, height: 20 * 2 };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.parentWrap}>
       <ScrollView style={{ marginTop: statusBarHeight, flex: 1 }}>
         <Header />
 
         {data.map((user) => {
           return (
             <DetailCard key={user.id}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <View style={{ display: "flex", flexDirection: "column" }}>
-                  <Image
-                    source={`${user.image}`}
-                    style={{ height: 60, width: 60, borderRadius: 80 }}
-                  ></Image>
+              <View style={styles.profileWrap}>
+                <View style={styles.imgWrap}>
+                  <Image source={user.image} style={styles.img}></Image>
                 </View>
 
-                <View style={{ display: "flex", flexDirection: "column" }}>
-                  <Text style={{ fontWeight: "bold" }}>{user.name}</Text>
-                  <Text>{user.fare}</Text>
-                  <View
-                    style={{
-                      backgroundColor: "#DEC20B",
-                      borderRadius: 50,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      padding: 2,
-                    }}
-                  >
+                <View style={styles.nameWrap}>
+                  <Text style={styles.bold}>{user.name}</Text>
+                  <Text style={styles.bold}>{user.fare}</Text>
+                  <View style={styles.paymentWrap}>
                     <Text>{user.paymentMethod}</Text>
                   </View>
                 </View>
 
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginLeft: 60,
-                  }}
-                >
-                  <Text style={{ fontWeight: "bold" }}>{user.date}</Text>
+                <View style={styles.dateWrap}>
+                  <Text style={styles.bold}>{user.date}</Text>
                   <Text>{user.time}</Text>
                   <Text>{user.distance}</Text>
                 </View>
               </View>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  marginLeft: 30,
-                  marginTop: 10,
-                }}
-              >
-                <View style={{ flexDirection: "column", alignItems: "center" }}>
-                  <View
-                    style={{
-                      pillSize,
-                      backgroundColor: "green",
-                      borderRadius: 16,
-                      padding: 8,
-                      alignItems: "center",
-                      justifyContent: "flex-start",
-                    }}
-                  />
+              <View style={styles.pickupContainer}>
+                <View style={styles.locationPointsContainer}>
+                  <View style={styles.firstlocationPoint} />
 
-                  <View
-                    style={{
-                      borderColor: "green",
-                      borderWidth: 1,
-                      borderRadius: 1,
-                      flex: 1,
-                      minHeight: 16,
-                    }}
-                  />
+                  <View style={styles.connector} />
 
-                  <View
-                    style={{
-                      pillSize,
-                      backgroundColor: "red",
-                      borderRadius: 16,
-                      padding: 8,
-                      alignItems: "center",
-                      justifyContent: "flex-end",
-                    }}
-                  ></View>
+                  <View style={styles.secondlocationPoint}></View>
                 </View>
 
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "space-between",
-                    flexDirection: "column",
-                    marginLeft: 5,
-                  }}
-                >
-                  <Text style={{ color: "green", fontWeight: "bold" }}>
-                    Pick Up
-                  </Text>
+                <View style={styles.pickupWrap}>
+                  <Text style={styles.pickupText}>Pick Up</Text>
                   <Text>{user.pickup}</Text>
 
-                  <View style={{ flexDirection: "row", marginTop: 5 }}>
-                    <View
-                      style={{
-                        borderWidth: 1,
-                        borderRadius: 1,
-                        width: "100%",
-                        borderColor: "gray",
-                      }}
-                    />
+                  <View style={styles.lineSeparatorContainer}>
+                    <View style={styles.separator} />
                   </View>
 
-                  <Text
-                    style={{ marginTop: 5, color: "green", fontWeight: "bold" }}
-                  >
-                    Drop off
-                  </Text>
+                  <Text style={styles.dropOffText}>Drop off</Text>
                   <Text>{user.dropoff}</Text>
                 </View>
               </View>
@@ -150,3 +81,100 @@ export const Passengers = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  parentWrap: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  profileWrap: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  imgWrap: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  img: {
+    height: 60,
+    width: 60,
+    borderRadius: 80,
+  },
+  nameWrap: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  bold: {
+    fontWeight: "bold",
+  },
+  paymentWrap: {
+    backgroundColor: "#DEC20B",
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 2,
+  },
+  dateWrap: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: 60,
+  },
+  pickupContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginLeft: 30,
+    marginTop: 30,
+  },
+  locationPointsContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  firstlocationPoint: {
+    width: 10,
+    height: 10,
+    backgroundColor: "#76B138",
+    borderRadius: 16,
+    padding: 8,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  connector: {
+    borderColor: "#76B138",
+    borderWidth: 1,
+    borderRadius: 1,
+    minHeight: 25,
+  },
+  secondlocationPoint: {
+    width: 10,
+    height: 10,
+    backgroundColor: "red",
+    borderRadius: 16,
+    padding: 8,
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  pickupWrap: {
+    flex: 1,
+    justifyContent: "space-between",
+    flexDirection: "column",
+    marginLeft: 5,
+  },
+  pickupText: {
+    color: "#76B138",
+    fontWeight: "bold",
+  },
+  lineSeparatorContainer: {
+    flexDirection: "row",
+    marginTop: 5,
+  },
+  separator: {
+    borderWidth: 1,
+    width: "100%",
+    borderColor: "gray",
+  },
+  dropOffText: {
+    marginTop: 3,
+    color: "#76B138",
+    fontWeight: "bold",
+  },
+});

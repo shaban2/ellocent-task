@@ -1,20 +1,20 @@
 import React from "react";
-import { View, SafeAreaView, Text, Image } from "react-native";
+import { View, SafeAreaView, Text, Image, StyleSheet } from "react-native";
 import Constants from "expo-constants";
 import { BottomCard } from "../components/card";
 import { Header } from "../components/header";
-import map from "../assets/map.png";
+import { Map } from "../components/map";
 import { data } from "../public/data";
 
 export const HomeScreen = ({ navigation }) => {
   const statusBarHeight = Constants.statusBarHeight;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.wrappers}>
       <View style={{ marginTop: statusBarHeight, flex: 1 }}>
         <Header />
-        <View style={{ flex: 1 }}>
-          <Image source={map} style={{ height: 600, width: "100%" }}></Image>
+        <View style={styles.wrappers}>
+          <Map />
         </View>
         {data.map((user) => {
           return user.id == 1 ? (
@@ -22,43 +22,21 @@ export const HomeScreen = ({ navigation }) => {
               onPress={() => navigation.navigate("Passengers")}
               key={user.id}
             >
-              <View
-                style={{
-                  borderBottomWidth: 4,
-                  borderBottomColor: "green",
-                  width: 50,
-                  marginLeft: 160,
-                  marginBottom: 30,
-                }}
-              />
+              <View style={styles.dash} />
+              <View style={styles.lineBreak} />
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <View style={{ display: "flex", flexDirection: "column" }}>
-                  <Image
-                    source={`${user.image}`}
-                    style={{ height: 60, width: 60, borderRadius: 80 }}
-                  ></Image>
+              <View style={styles.container}>
+                <View style={styles.imgContainer}>
+                  <Image source={user.image} style={styles.img}></Image>
                 </View>
 
-                <View style={{ display: "flex", flexDirection: "column", marginTop:5 }}>
-                  <Text style={{ fontWeight: "bold" }}>{user.name}</Text>
+                <View style={styles.levelWrap}>
+                  <Text style={styles.text}>{user.name}</Text>
                   <Text>{user.level}</Text>
                 </View>
 
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    marginLeft: 60,
-                    marginTop:5
-                  }}
-                >
-                  <Text style={{ fontWeight: "bold" }}>{user.discount}</Text>
+                <View style={styles.earnedWrap}>
+                  <Text style={styles.text}>{user.discount}</Text>
                   <Text>Earned</Text>
                 </View>
               </View>
@@ -69,3 +47,47 @@ export const HomeScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  dash: {
+    borderBottomWidth: 4,
+    borderBottomColor: "#76B138",
+    width: 50,
+    alignSelf: "center",
+    flexDirection: "column",
+    marginLeft: 10
+  },
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  imgContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  img: {
+    height: 60,
+    width: 60,
+    borderRadius: 80,
+  },
+  levelWrap: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 5,
+  },
+  text: {
+    fontWeight: "bold",
+  },
+  wrappers: {
+    flex: 1,
+  },
+  lineBreak: {
+    paddingBottom: 30,
+  },
+  earnedWrap: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: 60,
+    marginTop: 5,
+  },
+});
